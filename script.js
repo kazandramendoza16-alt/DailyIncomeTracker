@@ -192,3 +192,92 @@ function saveIncomeData() {
         alert('An error occurred. Please check the console.');
     });
 }
+
+// Function to load data from the database for the selected week
+function loadIncomeData() {
+    const weekStartDate = document.getElementById('weekDate').value;
+    if (!weekStartDate) {
+        // If no date is selected, clear the table and exit
+        clearTable();
+        calculateTotals();
+        return;
+    }
+
+    // Fetch data for the selected week from your PHP script
+    fetch(`http://localhost/DAILYINCOMETRACKER/fetch_income.php?week_start_date=${weekStartDate}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.success && data.data.length > 0) {
+            renderTableData(data.data);
+            calculateTotals();
+        } else {
+            // If no data is found, clear the table
+            clearTable();
+            generateInitialRows(5);
+            calculateTotals();
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        alert('An error occurred while loading data.');
+    });
+}
+
+// Helper function to clear all existing rows
+function clearTable() {
+    const tbody = document.getElementById('incomeRows');
+    tbody.innerHTML = '';
+    rowCount = 0; // Reset the row counter
+}
+
+// Helper function to render data into the table
+function renderTableData(data) {
+    clearTable();
+    const tbody = document.getElementById('incomeRows');
+    data.forEach((rowData, index) => {
+        const row = document.createElement('tr');
+        row.setAttribute('data-row-id', index);
+
+        // Income source cell
+        const sourceCell = document.createElement('td');
+        sourceCell.className = 'income-source';
+        sourceCell.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <input type="text" value="${rowData.income_source}"
+                       style="border: none; background: transparent; font-weight: bold; flex: 1;">
+                <button class="delete-row-btn" onclick="deleteRow(${index})" title="Delete Row">×</button>
+            </div>
+        `;
+        row.appendChild(sourceCell);
+
+        // Daily amount cells
+        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        days.forEach((day, dayIndex) => {
+            const cell = document.createElement('td');
+            cell.className = 'dollar-symbol';
+            cell.innerHTML = `<input type="number" class="dollar-input" data-row="${index}" data-day="${dayIndex}" step="0.01" min="0" value="${rowData[day] || 0}" oninput="calculateTotals()">`;
+            row.appendChild(cell);
+        });
+
+        tbody.appendChild(row);
+    });
+    rowCount = data.length; // Update the row counter
+}
+
+// Modify your event listener to call loadIncomeData() when the date changes
+document.addEventListener('DOMContentLoaded', function() {
+    generateInitialRows(5);
+    createAddRowButton();
+    setCurrentWeek();
+    calculateTotals();
+
+    // Add a change event listener to the date input
+    document.getElementById('weekDate').addEventListener('change', loadIncomeData);
+
+    // Existing event listener for input calculation
+    document.addEventListener('input', function(e) {
+        if (e.target.classList.contains('dollar-input') && !e.target.classList.contains('total-input')) {
+            calculateTotals();
+        }
+    });
+});
