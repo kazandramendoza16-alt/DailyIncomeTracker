@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily and Weekly Income Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="tracker-container">
+            <div class="tracker-title">DAILY AND WEEKLY INCOME TRACKER</div>
+            
+            <div class="week-info">
+                FOR THE WEEK OF: <input type="date" id="weekDate">
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>INCOME SOURCE</th>
+                        <th>SUNDAY</th>
+                        <th>MONDAY</th>
+                        <th>TUESDAY</th>
+                        <th>WEDNESDAY</th>
+                        <th>THURSDAY</th>
+                        <th>FRIDAY</th>
+                        <th>SATURDAY</th>
+                    </tr>
+                </thead>
+                <tbody id="incomeRows">
+                    </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td class="income-source">DAILY TOTALS:</td>
+                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="sunTotal" step="0.01" readonly></td>
+                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="monTotal" step="0.01" readonly></td>
+                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="tueTotal" step="0.01" readonly></td>
+                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="wedTotal" step="0.01" readonly></td>
+                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="thuTotal" step="0.01" readonly></td>
+                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="friTotal" step="0.01" readonly></td>
+                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="satTotal" step="0.01" readonly></td>
+                    </tr>
+                    <tr class="weekly-total-row">
+                        <td class="income-source">WEEKLY TOTAL:</td>
+                        <td colspan="7" style="text-align: center; font-weight: bold; font-size: 16px;">
+                            <span id="weeklyTotal">₱0.00</span>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <button class="print-btn" onclick="window.print()">Print Tracker</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
