@@ -4,56 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily and Weekly Income Tracker</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="container">
+        <div class="header">
+            <h1 class="main-title">Daily & Weekly Income Tracker</h1>
+            <p class="subtitle">Track your earnings with style and precision</p>
+        </div>
+
         <div class="tracker-container">
-            <div class="tracker-title">DAILY AND WEEKLY INCOME TRACKER</div>
+            <div class="tracker-title">Income Tracking Dashboard</div>
             
             <div class="week-info">
-                FOR THE WEEK OF: <input type="date" id="weekDate">
+                <span>📅 Week of:</span>
+                <input type="date" id="weekDate">
             </div>
 
             <table>
                 <thead>
                     <tr>
-                        <th>INCOME SOURCE</th>
-                        <th>SUNDAY</th>
-                        <th>MONDAY</th>
-                        <th>TUESDAY</th>
-                        <th>WEDNESDAY</th>
-                        <th>THURSDAY</th>
-                        <th>FRIDAY</th>
-                        <th>SATURDAY</th>
+                        <th>Income Source</th>
+                        <th>Sunday</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
                     </tr>
                 </thead>
                 <tbody id="incomeRows">
-                    </tbody>
+                    <!-- Dynamic rows will be added here by JavaScript -->
+                </tbody>
                 <tfoot>
                     <tr class="total-row">
-                        <td class="income-source">DAILY TOTALS:</td>
-                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="sunTotal" step="0.01" readonly></td>
-                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="monTotal" step="0.01" readonly></td>
-                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="tueTotal" step="0.01" readonly></td>
-                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="wedTotal" step="0.01" readonly></td>
-                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="thuTotal" step="0.01" readonly></td>
-                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="friTotal" step="0.01" readonly></td>
-                        <td class="dollar-symbol"><input type="number" class="dollar-input total-input" id="satTotal" step="0.01" readonly></td>
+                        <td class="income-source">📊 Daily Totals</td>
+                        <td class="dollar-symbol">
+                            <input type="number" class="dollar-input total-input" id="sunTotal" step="0.01" readonly>
+                        </td>
+                        <td class="dollar-symbol">
+                            <input type="number" class="dollar-input total-input" id="monTotal" step="0.01" readonly>
+                        </td>
+                        <td class="dollar-symbol">
+                            <input type="number" class="dollar-input total-input" id="tueTotal" step="0.01" readonly>
+                        </td>
+                        <td class="dollar-symbol">
+                            <input type="number" class="dollar-input total-input" id="wedTotal" step="0.01" readonly>
+                        </td>
+                        <td class="dollar-symbol">
+                            <input type="number" class="dollar-input total-input" id="thuTotal" step="0.01" readonly>
+                        </td>
+                        <td class="dollar-symbol">
+                            <input type="number" class="dollar-input total-input" id="friTotal" step="0.01" readonly>
+                        </td>
+                        <td class="dollar-symbol">
+                            <input type="number" class="dollar-input total-input" id="satTotal" step="0.01" readonly>
+                        </td>
                     </tr>
                     <tr class="weekly-total-row">
-                        <td class="income-source">WEEKLY TOTAL:</td>
-                        <td colspan="7" style="text-align: center; font-weight: bold; font-size: 16px;">
+                        <td class="income-source">🏆 Weekly Total</td>
+                        <td colspan="7" style="text-align: center;">
                             <span id="weeklyTotal">₱0.00</span>
                         </td>
                     </tr>
                 </tfoot>
             </table>
         </div>
-        <button class="print-btn" onclick="window.print()">Print Tracker</button>
 
-        <button class="save-btn" onclick="saveIncomeData()">Save to Database</button>
+        <div class="action-buttons-container">
+            <button class="btn save-btn" onclick="saveIncomeData()">
+                Save Data
+            </button>
+            <button class="btn print-btn" onclick="window.print()">
+                Print Report
+            </button>
+        </div>
     </div>
+
+    <!-- Include your existing JavaScript file -->
     <script src="script.js"></script>
 </body>
 </html>

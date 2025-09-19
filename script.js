@@ -101,15 +101,19 @@ function setCurrentWeek() {
 
 // Create add row button
 function createAddRowButton() {
-    const container = document.querySelector('.container');
+    // Check if the button already exists to prevent duplicates
+    if (document.querySelector('.add-row-btn')) {
+        return;
+    }
+
+    const container = document.querySelector('.tracker-container');
     const addButton = document.createElement('button');
     addButton.textContent = '+ Add Income Source';
     addButton.className = 'add-row-btn';
     addButton.onclick = addIncomeRow;
-    
-    // Insert before the print button
-    const printButton = document.querySelector('.print-btn');
-    container.insertBefore(addButton, printButton);
+
+    // Insert the button at the end of tracker-container
+    container.appendChild(addButton);
 }
 
 // Initialize the tracker
@@ -118,7 +122,10 @@ document.addEventListener('DOMContentLoaded', function() {
     createAddRowButton();
     setCurrentWeek();
     calculateTotals();
-    
+
+    // Add a change event listener to the date input
+    document.getElementById('weekDate').addEventListener('change', loadIncomeData);
+
     // Add event listener for dynamic input calculation
     document.addEventListener('input', function(e) {
         if (e.target.classList.contains('dollar-input') && !e.target.classList.contains('total-input')) {
@@ -263,21 +270,3 @@ function renderTableData(data) {
     });
     rowCount = data.length; // Update the row counter
 }
-
-// Modify your event listener to call loadIncomeData() when the date changes
-document.addEventListener('DOMContentLoaded', function() {
-    generateInitialRows(5);
-    createAddRowButton();
-    setCurrentWeek();
-    calculateTotals();
-
-    // Add a change event listener to the date input
-    document.getElementById('weekDate').addEventListener('change', loadIncomeData);
-
-    // Existing event listener for input calculation
-    document.addEventListener('input', function(e) {
-        if (e.target.classList.contains('dollar-input') && !e.target.classList.contains('total-input')) {
-            calculateTotals();
-        }
-    });
-});
