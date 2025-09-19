@@ -126,3 +126,69 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Add a function to get the current week's start date from the input
+function getWeekStartDate() {
+    const weekInput = document.getElementById('weekDate');
+    return weekInput ? weekInput.value : '';
+}
+
+function saveIncomeData() {
+    const allRows = document.querySelectorAll('#incomeRows tr');
+    const incomeData = [];
+    const weekStartDate = getWeekStartDate(); // Get the date from the input
+    
+    // Add this line to debug:
+    console.log("Week Start Date being sent:", weekStartDate); 
+
+    if (weekStartDate === '') {
+        alert("Please select a week start date before saving.");
+        return; // Stop the function from proceeding
+    }
+
+    allRows.forEach(row => {
+        const sourceInput = row.querySelector('.income-source input');
+        const dailyInputs = row.querySelectorAll('.dollar-input');
+        
+        const rowData = {
+            source: sourceInput.value || '',
+            daily_income: []
+        };
+        
+        dailyInputs.forEach(input => {
+            rowData.daily_income.push(parseFloat(input.value) || 0);
+        });
+
+        incomeData.push(rowData);
+    });
+
+    const weeklyTotalElement = document.getElementById('weeklyTotal');
+    const weeklyTotal = parseFloat(weeklyTotalElement.textContent.replace('₱', '')) || 0;
+
+    // Send the data, including the new date field
+    fetch('http://localhost/DAILYINCOMETRACKER/save_income.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+            rows: incomeData,
+            weekly_total: weeklyTotal,
+            week_start_date: weekStartDate // Pass the week start date
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Data saved successfully!');
+            alert('Data saved successfully!');
+        } else {
+            console.error('Error saving data:', data.message);
+            alert('Failed to save data: ' + data.message);
+        }
+    })
+    .catch((error) => {
+        console.error('Network or server error:', error);
+        alert('An error occurred. Please check the console.');
+    });
+}
